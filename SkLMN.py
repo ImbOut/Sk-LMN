@@ -14,6 +14,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.mixture import GaussianMixture
 from sklearn.ensemble import IsolationForest
 from sklearn import preprocessing
+from tqdm import tqdm
 class SkLMN(ClassifierBase):
     #VINH VO
     def map_index(self, index, samples):
@@ -66,14 +67,14 @@ class SkLMN(ClassifierBase):
     def cal_m_e_matrix(self,X, estimators, estimators_samples):
         temp_dict2 = {}
         for i in range(len(estimators)):
-            print("\nProcessing trees",i,":",end=' ')
+            #print("\nProcessing trees",i,":",end=' ')
             estimators_sample = estimators_samples[i]
             step = max( int(len(estimators_sample)/100)-1,1)
             estimator = estimators[i]
             
-            for j1 in range(len(estimators_sample)-1):
-                if (j1 % step == 0):
-                    print(int(j1 / step),end=' ') 
+            for j1 in tqdm(range(len(estimators_sample)-1),"Tree " +str(i)):
+                #if (j1 % step == 0):
+                    #print(int(j1 / step),end=' ') 
 
                 x = estimators_sample[j1]
                 for j2 in range(j1+1,len(estimators_sample)):
