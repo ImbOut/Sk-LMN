@@ -1,5 +1,5 @@
-# Pk-LMN
-Mass-based Proximity Weighted k Lowest Mass Neighbors for Class Imbalance
+# Sk-LMN
+Mass-based Similarity Weighted k-Neighbors for Class Imbalance
 
 Parameters:
 
