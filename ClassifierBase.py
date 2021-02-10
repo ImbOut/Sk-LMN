@@ -19,7 +19,6 @@ def GetDatasetFolder():
         db_path = 'data/'
     return db_path
 
-
 class ClassifierBase:
     def __init__(self,dbname='movielens_rating.csv',random_state=None):
         self.dbname = dbname
@@ -36,6 +35,7 @@ class ClassifierBase:
         self.class_labels =np.unique(self.y) 
         self.n_class = len(self.class_labels)
         asd=123
+    
     def TrainTestSplit(self,random_state=TDef.split_seed):
         self.X_train, self.X_test, self.y_train, self.y_test =train_test_split(self.X, self.y, test_size=TDef.test_ratio, random_state=random_state)
         self.y_train =(self.y_train.astype(int))
@@ -43,6 +43,7 @@ class ClassifierBase:
         self.N_train = len(self.X_train)
         self.N_test = len(self.X_test)
         print('Spliting data: Training size:',self.N_train,'Testing size:' , self.N_test, "test_ratio:",TDef.test_ratio, "Split_seed",TDef.split_seed )
+    
     def CalcScores(self):
         self.accuracy = accuracy_score(self.y_test, self.y_pred)
         probs = self.y_prob
@@ -73,13 +74,14 @@ class ClassifierBase:
         self.hinge_loss = hinge_loss(self.y_test, probs)
         self.brier_score_loss = brier_score_loss(self.y_test, probs)
         
-
         print("\nMethod:", self.name, " data:", TDef.data ," accuracy:", "%.3f" % self.accuracy , "roc_auc:","%.3f" % self.roc_auc,"pr_auc:","%.3f" % self.pr_auc)
         self.WriteResultToCSV()
+    
     def append_list_as_row(self,file_name, list_of_elem):
         with open(file_name, 'a+', newline='') as write_obj:
             csv_writer = writer(write_obj)
             csv_writer.writerow(list_of_elem)
+    
     def WriteResultToCSV(self,file=''):
         if not os.path.exists(TDef.folder):
             os.makedirs(TDef.folder)
@@ -114,11 +116,8 @@ class ClassifierBase:
         self.dicts.append(('hinge_loss',self.hinge_loss ))
         self.dicts.append(('brier_score_loss',self.brier_score_loss ))
 
-
         self.dicts.append(('fit_time',self.fit_time ))
         self.dicts.append(('eval_time',self.eval_time ))
-
-
 
         dicts = self.dicts+self.dicts2;
         try:
